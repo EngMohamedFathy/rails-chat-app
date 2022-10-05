@@ -1,0 +1,49 @@
+version: "3"
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.4.3
+    hostname: elasticsearch
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+  rails:
+    build:
+      context: ./
+      dockerfile: Dockerfile-rails
+    stdin_open: true
+    tty: true
+    command:
+      sh -c "
+        rails db:create &&
+        rails db:migrate &&
+        rm ./tmp/pids/server.pid &&
+        bundle exec rails s -p 3000 -b '0.0.0.0'
+      "
+    volumes:
+      - ".:/app"
+    ports:
+      - "3001:3000"
+    depends_on:
+      - db
+      - elasticsearch
+    links:
+      - db
+      - elasticsearch
+    environment:
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_HOST: db
+      ELASTICSEARCH_URL: http://elasticsearch:9200
