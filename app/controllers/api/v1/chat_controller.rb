@@ -22,8 +22,11 @@ module Api
         )
 
         if @chat.save
+          # to increment chats count of application
+          @application.update_attribute(:chats_count, number)
+
           # return success request with data name & token only
-          render json_response_success 'Chat Created', { number:@chat.number, application_token:@application.token }
+          render json_response_success 'Chat Created', { number:@chat.number, application_token:@application.token }, 201
         else
           render json_response_error 'Sorry Chat not created', @application.errors, :unprocessable_entity
         end

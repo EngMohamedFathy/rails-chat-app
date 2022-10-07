@@ -5,5 +5,7 @@ class AddForeignKeyReferences < ActiveRecord::Migration[5.2]
     #
     add_reference :chats, :applications, index: true, foreign_key: true
     add_reference :messages, :chats, index: true, foreign_key: true
+
+    add_index :applications, :token, unique: true
   end
 end

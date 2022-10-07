@@ -26,8 +26,11 @@ module Api
         )
 
         if @message.save
+          # to increment messages count of chat
+          Chat.where('id = ?',@chat.id).update_all(messages_count: number)
+
           # return success request with data name & token only
-          render json_response_success 'Message Created', { number:@message.number, body:@message.body }
+          render json_response_success 'Message Created', { number:@message.number, body:@message.body } ,201
         else
           render json_response_error 'Sorry Message not created', @application.errors, :unprocessable_entity
         end

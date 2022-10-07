@@ -18,7 +18,7 @@ module Api
 
         if @application.save
           # return success request with data name & token only
-          render json_response_success 'Application Created', { name:@application.name, token:@application.token }
+          render json_response_success 'Application Created', { name:@application.name, token:@application.token } ,201
         else
           render json_response_error 'Sorry Application not created', @application.errors, :unprocessable_entity
         end
