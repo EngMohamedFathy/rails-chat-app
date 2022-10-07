@@ -34,7 +34,7 @@ Notes :
 
 Enjoy!
 
-### 2- (Second Way) Install Direct on you Machine
+### 2- (Second Way) Install Direct on your Machine
 
 Prerequisites (you must have all these) :
 * ruby '2.6.10'
@@ -44,11 +44,22 @@ Prerequisites (you must have all these) :
 * redis
 
 
-To start up the application in your local Docker environment:
+To start up the application in your local environment:
 
 ```bash
 git clone https://github.com/EngMohamedFathy/rails-chat-app.git
 cd rails-chat-app
+```
+* change your database configurations in ``config/database.yml`` file
+
+```
+  username: <%= ENV.fetch("DB_USER",'root') %>
+  password: <%= ENV.fetch("DB_PASSWORD",'') %>
+  host: <%= ENV.fetch("DB_HOST",'localhost') %>
+```
+
+* run application now
+```
 rails db:craete
 rails db:migrate
 rails server
