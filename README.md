@@ -49,6 +49,7 @@ To start up the application in your local environment:
 ```bash
 git clone https://github.com/EngMohamedFathy/rails-chat-app.git
 cd rails-chat-app
+bundle install
 ```
 * change your database configurations in ``config/database.yml`` file
 
